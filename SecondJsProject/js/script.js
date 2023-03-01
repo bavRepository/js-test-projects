@@ -14,7 +14,13 @@
 
 'use strict';
 
-const numberOfFilms = +prompt("How many films have you already seen?", "0");
+let numberOfFilms;
+let oneOfLastFilmSeen;
+let mark;
+
+do {
+    numberOfFilms = +prompt("How many films have you already seen?", "0");
+} while (!numberOfFilms || numberOfFilms === "" || numberOfFilms.length > 50);
 
 const personalMovieDB = {
     count: numberOfFilms,
@@ -25,11 +31,25 @@ const personalMovieDB = {
 };
 
 for (let i = 0; i < 2; i++) {
-    const oneOfLastFilmSeen = prompt("What is the name of the latest film you have seen?", "");
-    const mark = +prompt("What is the mark you have given to this movie?", "");
+    oneOfLastFilmSeen = prompt("What is the name of the latest film you have seen?", "");
+    if (!oneOfLastFilmSeen || oneOfLastFilmSeen.trim() === "" || oneOfLastFilmSeen.length > 50) {
+        i--;
+        continue;
+    }
+    mark = +prompt("What is the mark you have given to this movie?", "");
+    if (!mark || mark === "" || mark.length > 50) {
+        i--;
+        continue;
+    }
     personalMovieDB.movies[oneOfLastFilmSeen] = mark;
-
 }
 
 console.log(personalMovieDB);
 
+if (personalMovieDB.count < 10) {
+    console.log("You watched only a few movies");
+}else if (personalMovieDB.count <= 30) {
+    console.log("You are classical viewer");
+}else {
+    console.log("You are really film fan");
+}
